@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  postgresql: 
+    image: postgres
+    container_name: inventory-management
+    ports: 
+      - "4402:5432"
+    environment:
+      - POSTGRES_HOST=localhost
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=inventory-management
+    command: postgres
+    restart: always
