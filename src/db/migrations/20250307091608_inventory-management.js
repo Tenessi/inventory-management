@@ -32,7 +32,8 @@ exports.up = function(knex) {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.timestamp('createdAt', { useTz: true }).defaultTo(knex.fn.now());
       table.timestamp('date').defaultTo(knex.fn.now());
-      table.integer('quantity').defaultTo(0).notNullable();
+      table.integer('quantity').notNullable();
+      table.uuid('userId').references('id').inTable('users').onDelete('CASCADE');
       table.uuid('warehouseProductId').references('id').inTable('warehouseProducts').onDelete('CASCADE');
     })
     .createTable('accountingRecords', (table) => {

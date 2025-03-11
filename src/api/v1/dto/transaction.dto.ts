@@ -1,7 +1,6 @@
-export interface TransactionModelFields {
+export class TransactionDto {
   id: string;
   date: string;
   quantity: number;
-  userId: string;
   warehouseProductId: string;
 }

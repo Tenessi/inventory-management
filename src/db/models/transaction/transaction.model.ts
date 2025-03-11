@@ -9,8 +9,7 @@ export class TransactionModel extends Model implements TransactionModelFields {
   date: string;
   quantity: number;
   userId: string;
-  productId: string;
-  warehouseId: string;
+  warehouseProductId: string;
 
   static get tableName() {
     return INVENTORY_MANAGEMENT_TABLES.TRANSACTIONS;

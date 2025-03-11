@@ -24,12 +24,11 @@ export class TransactionRepository {
     return await this.transactionModel.query(transaction).where({ userId });
   }
 
-  async getByProduct(productId: string, transaction?: Transaction): Promise<TransactionModelFields[]> {
-    return await this.transactionModel.query(transaction).where({ productId });
-  }
-
-  async getByWarehouse(warehouseId: string, transaction?: Transaction): Promise<TransactionModelFields[]> {
-    return await this.transactionModel.query(transaction).where({ warehouseId });
+  async getByWarehouseProduct(
+    warehouseProductId: string,
+    transaction?: Transaction,
+  ): Promise<TransactionModelFields[]> {
+    return await this.transactionModel.query(transaction).where({ warehouseProductId });
   }
 
   async delete(id: string, transaction?: Transaction): Promise<void> {
