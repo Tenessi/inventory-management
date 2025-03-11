@@ -32,6 +32,14 @@ export class WarehouseService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.warehouse.delete(id);
+    return await this.repository.withTransaction(async (transaction) => {
+      const warehouse = await this.repository.warehouse.getById(id, transaction);
+
+      if (!warehouse) {
+        throw new NotFoundException('Склад не найден');
+      }
+
+      await this.repository.warehouse.delete(id, transaction);
+    });
   }
 }

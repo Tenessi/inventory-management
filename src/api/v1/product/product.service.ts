@@ -32,6 +32,14 @@ export class ProductService {
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.product.delete(id);
+    return await this.repository.withTransaction(async (transaction) => {
+      const product = await this.repository.product.getById(id, transaction);
+
+      if (!product) {
+        throw new NotFoundException('Товар не найден');
+      }
+
+      await this.repository.product.delete(id, transaction);
+    });
   }
 }

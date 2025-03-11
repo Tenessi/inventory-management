@@ -29,16 +29,26 @@ export class UserService {
   }
 
   async update(id: string, dto: UserRequestDto): Promise<UserResponseDto> {
-    const user = await this.getById(id);
+    return await this.repository.withTransaction(async (transaction) => {
+      const user = await this.repository.user.getById(id, transaction);
 
-    if (!user) {
-      throw new NotFoundException('Пользователь не найден');
-    }
+      if (!user) {
+        throw new NotFoundException('Пользователь не найден');
+      }
 
-    return await this.repository.user.update(id, dto);
+      return await this.repository.user.update(id, dto, transaction);
+    });
   }
 
   async delete(id: string): Promise<void> {
-    await this.repository.user.delete(id);
+    return await this.repository.withTransaction(async (transaction) => {
+      const user = await this.repository.user.getById(id, transaction);
+
+      if (!user) {
+        throw new NotFoundException('Пользователь не найден');
+      }
+
+      await this.repository.user.delete(id, transaction);
+    });
   }
 }
