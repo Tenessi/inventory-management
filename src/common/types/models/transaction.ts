@@ -3,5 +3,6 @@ export interface TransactionModelFields {
   date: string;
   quantity: number;
   userId: string;
-  warehouseProductId: string;
+  productId: string;
+  warehouseId: string;
 }

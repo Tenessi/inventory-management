@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { TransactionResponseDto } from './dto/response/response.dto';
 import { TransactionRequestDto } from './dto/request/request.dto';
@@ -10,35 +10,21 @@ import { Auth } from 'src/common/decorators/auth.decorator';
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  @Post()
+  @Post('incoming')
   @HttpCode(201)
-  async create(@Body() dto: TransactionRequestDto, @CurrentUser('id') userId: string) {
-    return await this.transactionService.create(dto, userId);
+  async incoming(
+    @Body() dto: TransactionRequestDto,
+    @CurrentUser('id') userId: string,
+  ): Promise<TransactionResponseDto> {
+    return await this.transactionService.incoming(dto, userId);
   }
 
-  @Get()
-  @HttpCode(200)
-  async getAll(): Promise<TransactionResponseDto[]> {
-    return await this.transactionService.getAll();
-  }
-
-  @Get(':id')
-  @HttpCode(200)
-  async getById(@Param('id') id: string): Promise<TransactionResponseDto | undefined> {
-    return await this.transactionService.getById(id);
-  }
-
-  @Get('warehouse-product/:warehouseProductId')
-  @HttpCode(200)
-  async getByWarehouseProduct(
-    @Param('warehouseProductId') warehouseProductId: string,
-  ): Promise<TransactionResponseDto[]> {
-    return await this.transactionService.getByWarehouseProduct(warehouseProductId);
-  }
-
-  @Delete(':id')
-  @HttpCode(204)
-  async delete(@Param('id') id: string): Promise<void> {
-    await this.transactionService.delete(id);
+  @Post('outgoing')
+  @HttpCode(201)
+  async outgoing(
+    @Body() dto: TransactionRequestDto,
+    @CurrentUser('id') userId: string,
+  ): Promise<TransactionResponseDto> {
+    return await this.transactionService.outgoing(dto, userId);
   }
 }

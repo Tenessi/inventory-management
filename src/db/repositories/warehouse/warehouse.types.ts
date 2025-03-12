@@ -1,6 +1,6 @@
 export type WarehouseInput = {
   name: string;
-  capasity: number;
+  capacity: number;
 };
 
 export type WarehouseUpdateInput = Partial<WarehouseInput>;

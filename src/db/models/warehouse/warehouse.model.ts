@@ -7,7 +7,7 @@ import { INVENTORY_MANAGEMENT_TABLES } from 'src/db/constants';
 export class WarehouseModel extends Model implements WarehouseModelFields {
   id: string;
   name: string;
-  capasity: number;
+  capacity: number;
 
   static get tableName() {
     return INVENTORY_MANAGEMENT_TABLES.WAREHOUSES;

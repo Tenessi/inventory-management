@@ -4,10 +4,12 @@ type TransactionRequestType = Omit<TransactionDto, 'id' | 'date'>;
 
 export class TransactionRequestDto implements TransactionRequestType {
   quantity: number;
-  warehouseProductId: string;
+  warehouseId: string;
+  productId: string;
 
-  constructor(quantity: number, warehouseProductId: string) {
+  constructor(quantity: number, warehouseId: string, productId: string) {
     this.quantity = quantity;
-    this.warehouseProductId = warehouseProductId;
+    this.warehouseId = warehouseId;
+    this.productId = productId;
   }
 }

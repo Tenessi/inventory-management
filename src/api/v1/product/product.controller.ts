@@ -25,6 +25,12 @@ export class ProductController {
     return await this.productService.getById(id);
   }
 
+  @Get('warehouse/:warehouseId')
+  @HttpCode(200)
+  async getQuantityByWarehouse(@Param('warehouseId') warehouseId: string): Promise<number> {
+    return await this.productService.getQuantityByWarehouse(warehouseId);
+  }
+
   @Patch(':id')
   @HttpCode(201)
   async update(@Param('id') id: string, @Body() dto: ProductRequestDto): Promise<ProductResponseDto> {

@@ -4,10 +4,10 @@ type WarehouseRequestType = Omit<WarehouseDto, 'id'>;
 
 export class WarehouseRequestDto implements WarehouseRequestType {
   name: string;
-  capasity: number;
+  capacity: number;
 
   constructor(name: string, capasity: number) {
     this.name = name;
-    this.capasity = capasity;
+    this.capacity = capasity;
   }
 }

@@ -19,6 +19,10 @@ export class ProductService {
     return await this.repository.product.getById(id);
   }
 
+  async getQuantityByWarehouse(warehouseId: string): Promise<number> {
+    return await this.repository.product.getProductsQuantityByWarehouse(warehouseId);
+  }
+
   async update(id: string, dto: ProductRequestDto): Promise<ProductResponseDto> {
     return await this.repository.withTransaction(async (transaction) => {
       const product = await this.repository.product.getById(id, transaction);
