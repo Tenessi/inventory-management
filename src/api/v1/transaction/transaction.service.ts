@@ -3,6 +3,7 @@ import { Repository } from 'src/db/repositories/repository';
 import { TransactionRequestDto } from './dto/request/request.dto';
 import { TransactionResponseDto } from './dto/response/response.dto';
 import { Transaction } from 'objection';
+import { TransactionType } from 'src/shared/enums/transaction-type.enum';
 
 @Injectable()
 export class TransactionService {
@@ -32,7 +33,14 @@ export class TransactionService {
         );
       }
 
-      return await this.repository.transaction.create({ ...dto, userId }, transaction);
+      const dataToCreate = {
+        ...dto,
+        type: TransactionType.INCOMING,
+        userId,
+        date: dto.date,
+      };
+
+      return await this.repository.transaction.create(dataToCreate, transaction);
     });
   }
 
@@ -55,8 +63,12 @@ export class TransactionService {
         transaction,
       );
 
-      return await this.repository.transaction.create({ ...dto, userId }, transaction);
+      return await this.repository.transaction.create({ ...dto, type: TransactionType.OUTGOING, userId }, transaction);
     });
+  }
+
+  async getAll(): Promise<TransactionResponseDto[]> {
+    return await this.repository.transaction.getAll();
   }
 
   private async getWarehouseData(dto: TransactionRequestDto, transaction: Transaction) {

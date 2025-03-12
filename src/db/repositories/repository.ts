@@ -7,7 +7,6 @@ import { ProductRepository } from './product/product.repository';
 import { TransactionRepository } from './transaction/transaction.repository';
 import { WarehouseRepository } from './warehouse/warehouse.repository';
 import { WarehouseProductRepository } from './warehouse-product/warehouse-product.repository';
-import { AccountingRecordRepository } from './accounting-record/accounting-record.repository';
 
 @Injectable()
 export class Repository {
@@ -17,7 +16,6 @@ export class Repository {
     public readonly transaction: TransactionRepository,
     public readonly warehouse: WarehouseRepository,
     public readonly warehouseProduct: WarehouseProductRepository,
-    public readonly accountingRecord: AccountingRecordRepository,
     @Inject(KnexToken) private readonly knex: Knex,
   ) {}
 

@@ -33,22 +33,15 @@ exports.up = function(knex) {
       table.timestamp('createdAt', { useTz: true }).defaultTo(knex.fn.now());
       table.timestamp('date').defaultTo(knex.fn.now());
       table.integer('quantity').notNullable();
+      table.string('type').notNullable();
       table.uuid('userId').references('id').inTable('users').onDelete('CASCADE');
       table.uuid('productId').references('id').inTable('products').onDelete('CASCADE');
       table.uuid('warehouseId').references('id').inTable('warehouses').onDelete('CASCADE');
-    })
-    .createTable('accountingRecords', (table) => {
-      table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
-      table.timestamp('createdAt', { useTz: true }).defaultTo(knex.fn.now());
-      table.timestamp('recordDate').defaultTo(knex.fn.now());
-      table.integer('quantity').defaultTo(0).notNullable();
-      table.uuid('transactionId').references('id').inTable('transactions').onDelete('CASCADE');
-    })
+    });
 };
 
 exports.down = function(knex) {
   return knex.schema
-    .dropTable('accountingRecords')
     .dropTable('transactions')
     .dropTable('warehouseProducts')
     .dropTable('warehouses')

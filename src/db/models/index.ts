@@ -6,7 +6,6 @@ import { UserModel } from './user/user.model';
 import { TransactionModel } from './transaction/transaction.model';
 import { WarehouseModel } from './warehouse/warehouse.model';
 import { ProductModel } from './product/product.model';
-import { AccountingRecordModel } from './accounting-record/accounting-record.model';
 import { WarehouseProductModel } from './warehouse-product/warehouse-product.model';
 
 const CreateModelProvider = (model: typeof Model): Provider => {
@@ -19,13 +18,6 @@ const CreateModelProvider = (model: typeof Model): Provider => {
   };
 };
 
-const Models = [
-  UserModel,
-  TransactionModel,
-  WarehouseModel,
-  ProductModel,
-  AccountingRecordModel,
-  WarehouseProductModel,
-];
+const Models = [UserModel, TransactionModel, WarehouseModel, ProductModel, WarehouseProductModel];
 
 export const ModelProviders = Models.map(CreateModelProvider);

@@ -24,13 +24,6 @@ export class TransactionRepository {
     return await this.transactionModel.query(transaction).where({ userId });
   }
 
-  async getByWarehouseProduct(
-    warehouseProductId: string,
-    transaction?: Transaction,
-  ): Promise<TransactionModelFields[]> {
-    return await this.transactionModel.query(transaction).where({ warehouseProductId });
-  }
-
   async delete(id: string, transaction?: Transaction): Promise<void> {
     await this.transactionModel.query(transaction).deleteById(id);
   }

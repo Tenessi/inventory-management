@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Post } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { TransactionResponseDto } from './dto/response/response.dto';
 import { TransactionRequestDto } from './dto/request/request.dto';
@@ -26,5 +26,11 @@ export class TransactionController {
     @CurrentUser('id') userId: string,
   ): Promise<TransactionResponseDto> {
     return await this.transactionService.outgoing(dto, userId);
+  }
+
+  @Get()
+  @HttpCode(200)
+  async getAll(): Promise<TransactionResponseDto[]> {
+    return await this.transactionService.getAll();
   }
 }

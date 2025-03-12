@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'src/db/repositories/repository';
 import { WarehouseProductRequestDto } from './dto/request/request.dto';
 import { WarehouseProductResponseDto } from './dto/response/response.dto';
@@ -8,6 +8,8 @@ export class WarehouseProductService {
   constructor(private readonly repository: Repository) {}
 
   async create(dto: WarehouseProductRequestDto): Promise<WarehouseProductResponseDto> {
+    await this.checkIfWarehouseProductExists(dto);
+
     return await this.repository.warehouseProduct.create(dto);
   }
 
@@ -35,6 +37,8 @@ export class WarehouseProductService {
         throw new NotFoundException('Связь склада и товара не найдена');
       }
 
+      await this.checkIfWarehouseProductExists(dto);
+
       return await this.repository.warehouseProduct.update(id, dto, transaction);
     });
   }
@@ -49,5 +53,16 @@ export class WarehouseProductService {
 
       await this.repository.warehouseProduct.delete(id, transaction);
     });
+  }
+
+  private async checkIfWarehouseProductExists(dto: WarehouseProductRequestDto) {
+    const warehouseProducts = await this.repository.warehouseProduct.getByWarehouseAndProduct(
+      dto.warehouseId,
+      dto.productId,
+    );
+
+    if (warehouseProducts.length) {
+      throw new ConflictException('Данный инвентарь уже существует');
+    }
   }
 }

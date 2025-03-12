@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'src/db/repositories/repository';
 import { WarehouseRequestDto } from './dto/request/request.dto';
 import { WarehouseResponseDto } from './dto/response/response.dto';
@@ -8,6 +8,10 @@ export class WarehouseService {
   constructor(private readonly repository: Repository) {}
 
   async create(dto: WarehouseRequestDto): Promise<WarehouseResponseDto> {
+    if (dto.capacity < 0) {
+      throw new ConflictException('Вместимость не может быть меньше 0');
+    }
+
     return await this.repository.warehouse.create(dto);
   }
 
@@ -25,6 +29,10 @@ export class WarehouseService {
 
       if (!warehouse) {
         throw new NotFoundException('Склад не найден');
+      }
+
+      if (dto.capacity < 0) {
+        throw new ConflictException('Вместимость не может быть меньше 0');
       }
 
       return await this.repository.warehouse.update(id, dto, transaction);

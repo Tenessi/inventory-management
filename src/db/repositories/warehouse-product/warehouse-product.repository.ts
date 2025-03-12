@@ -30,6 +30,14 @@ export class WarehouseProductRepository {
     return await this.warehouseProductModel.query(transaction).where({ warehouseId });
   }
 
+  async getByWarehouseAndProduct(
+    warehouseId: string,
+    productId: string,
+    transaction?: Transaction,
+  ): Promise<WarehouseProductModelFields[]> {
+    return await this.warehouseProductModel.query(transaction).where({ warehouseId, productId });
+  }
+
   async update(
     id: string,
     input: WarehouseProductUpdateInput,
