@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserResponseDto } from './dto/response.dto';
-import { UserRequestDto } from './dto/request.dto';
+import { UserResponseDto } from './dto/response/response.dto';
+import { UserRequestDto } from './dto/request/request.dto';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/decorators/user-role.decorator';
 import { UserRole } from 'src/shared/enums/user-role.enum';

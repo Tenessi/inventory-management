@@ -1,5 +1,5 @@
 import { UserRole } from 'src/shared/enums/user-role.enum';
-import { UserDto } from '../../dto/user.dto';
+import { UserDto } from '../../../dto/user.dto';
 
 type UserRequestType = Omit<UserDto, 'id'>;
 
