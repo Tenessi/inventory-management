@@ -1,0 +1,158 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AuthModel {
+  accessToken: String!
+  user: UserModel!
+}
+
+input LoginRequestInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  createProduct(data: ProductRequestInput!): ProductModel!
+  createUser(data: UserCreateRequestInput!): UserModel!
+  createWarehouse(data: WarehouseCreateRequestInput!): WarehouseModel!
+  createWarehouseProduct(data: WarehouseProductCreateRequestInput!): WarehouseProductModel!
+  deleteProduct(id: String!): Boolean!
+  deleteUser(id: String!): Boolean!
+  deleteWarehouse(id: String!): Boolean!
+  deleteWarehouseProduct(id: String!): Boolean!
+  incomingTransaction(data: TransactionRequestInput!): TransactionModel!
+  login(data: LoginRequestInput!): AuthModel!
+  outgoingTransaction(data: TransactionRequestInput!): TransactionModel!
+  register(data: RegisterRequestInput!): AuthModel!
+  updateProduct(data: ProductUpdateRequestInput!, id: String!): ProductModel!
+  updateUser(data: UserUpdateRequestInput!, id: String!): UserModel!
+  updateWarehouse(data: WarehouseUpdateRequestInput!, id: String!): WarehouseModel!
+  updateWarehouseProduct(data: WarehouseProductUpdateRequestInput!, id: String!): WarehouseProductModel!
+}
+
+type ProductModel {
+  description: String!
+  id: ID!
+  name: String!
+  price: Float!
+}
+
+input ProductRequestInput {
+  description: String!
+  name: String!
+  price: Float!
+}
+
+input ProductUpdateRequestInput {
+  description: String
+  name: String
+  price: Float
+}
+
+type Query {
+  getAllProducts: [ProductModel!]!
+  getAllTransaction: [TransactionModel!]!
+  getAllUsers: [UserModel!]!
+  getAllWarehouseProducts: [WarehouseProductModel!]!
+  getAllWarehouses: [WarehouseModel!]!
+  getProductById(id: String!): ProductModel!
+  getUserById(id: String!): UserModel!
+  getWarehouseById(id: String!): WarehouseModel!
+  getWarehouseProductById(id: String!): WarehouseProductModel!
+  getWarehouseProductByProductId(productId: String!): [WarehouseProductModel!]!
+  getWarehouseProductByWarehouseId(warehouseId: String!): [WarehouseProductModel!]!
+  getWarehouseProductByWarehouseIdAndProductId(productId: String!, warehouseId: String!): [WarehouseProductModel!]!
+}
+
+input RegisterRequestInput {
+  email: String!
+  name: String!
+  password: String!
+  role: UserRole!
+}
+
+type TransactionModel {
+  date: String!
+  id: ID!
+  productId: ID!
+  quantity: Float!
+  type: TransactionType!
+  userId: ID!
+  warehouseId: ID!
+}
+
+input TransactionRequestInput {
+  date: String
+  productId: ID!
+  quantity: Float!
+  warehouseId: ID!
+}
+
+"""TransactionType enum"""
+enum TransactionType {
+  INCOMING
+  OUTGOING
+}
+
+input UserCreateRequestInput {
+  email: String!
+  name: String!
+  password: String!
+  role: UserRole!
+}
+
+type UserModel {
+  email: String!
+  id: ID!
+  name: String!
+  password: String!
+  role: UserRole!
+}
+
+"""User role enum"""
+enum UserRole {
+  ACCOUNTANT
+  ADMIN
+  WAREHOUSE
+}
+
+input UserUpdateRequestInput {
+  email: String
+  name: String
+  password: String
+  role: UserRole
+}
+
+input WarehouseCreateRequestInput {
+  capacity: Float!
+  name: String!
+}
+
+type WarehouseModel {
+  capacity: Float!
+  id: ID!
+  name: String!
+}
+
+input WarehouseProductCreateRequestInput {
+  productId: ID!
+  quantity: Float!
+  warehouseId: ID!
+}
+
+type WarehouseProductModel {
+  id: ID!
+  productId: ID!
+  quantity: Float!
+  warehouseId: ID!
+}
+
+input WarehouseProductUpdateRequestInput {
+  quantity: Float!
+}
+
+input WarehouseUpdateRequestInput {
+  capacity: Float
+  name: String
+}
