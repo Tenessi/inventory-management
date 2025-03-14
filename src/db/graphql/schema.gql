@@ -2,6 +2,16 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type AuthModel {
+  accessToken: String!
+  user: UserModel!
+}
+
+input LoginRequestInput {
+  email: String!
+  password: String!
+}
+
 type Mutation {
   createProduct(data: ProductRequestInput!): ProductModel!
   createUser(data: UserCreateRequestInput!): UserModel!
@@ -11,7 +21,9 @@ type Mutation {
   deleteWarehouse(id: String!): Boolean!
   deleteWarehouseProduct(id: String!): Boolean!
   incomingTransaction(data: TransactionRequestInput!): TransactionModel!
+  login(data: LoginRequestInput!): AuthModel!
   outgoingTransaction(data: TransactionRequestInput!): TransactionModel!
+  register(data: RegisterRequestInput!): AuthModel!
   updateProduct(data: ProductUpdateRequestInput!, id: String!): ProductModel!
   updateUser(data: UserUpdateRequestInput!, id: String!): UserModel!
   updateWarehouse(data: WarehouseUpdateRequestInput!, id: String!): WarehouseModel!
@@ -51,6 +63,13 @@ type Query {
   getWarehouseProductByProductId(productId: String!): [WarehouseProductModel!]!
   getWarehouseProductByWarehouseId(warehouseId: String!): [WarehouseProductModel!]!
   getWarehouseProductByWarehouseIdAndProductId(productId: String!, warehouseId: String!): [WarehouseProductModel!]!
+}
+
+input RegisterRequestInput {
+  email: String!
+  name: String!
+  password: String!
+  role: UserRole!
 }
 
 type TransactionModel {

@@ -1,10 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { GqlExecutionContext } from '@nestjs/graphql';
 import { UserRole } from 'src/shared/enums/user-role.enum';
 import { UserRoleRequest } from '../interfaces/guards/role-request.interface';
 
 @Injectable()
-export class UserRoleGuard implements CanActivate {
+export class GraphQLUserRoleGuard implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
@@ -19,13 +20,13 @@ export class UserRoleGuard implements CanActivate {
 
     console.log(contextRoles);
 
-    const request: UserRoleRequest = context.switchToHttp().getRequest();
-
+    const ctx = GqlExecutionContext.create(context);
+    const request = ctx.getContext<{ req: UserRoleRequest }>().req;
     const user = request.user;
     console.log(user);
 
     if (!user) {
-      throw new UnauthorizedException('Вы не имеете достаточно прав для выполнения данного действия');
+      throw new UnauthorizedException('Вы не имеете достаточно прав для выполнения данного действия');
     }
 
     return contextRoles.some((role) => user.role === role);

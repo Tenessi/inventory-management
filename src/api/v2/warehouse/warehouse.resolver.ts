@@ -4,7 +4,9 @@ import { WarehouseModel } from 'src/db/graphql/models/warehouse/warehouse.model'
 import { WarehouseCreateRequestInput } from './inputs/request/create-request.input';
 import { WarehouseModelFields } from 'src/common/types/models/warehouse';
 import { WarehouseUpdateRequestInput } from './inputs/request/update-request.input';
+import { GraphQLAuth } from 'src/common/decorators/graphql-auth.decorator';
 
+@GraphQLAuth()
 @Resolver('Warehouses')
 export class WarehouseResolver {
   constructor(private readonly warehouseService: WarehouseService) {}

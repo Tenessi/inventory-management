@@ -35,6 +35,11 @@ export class WarehouseService {
         throw new ConflictException('Вместимость не может быть меньше 0');
       }
 
+      const warehouseQuantity = await this.repository.product.getProductsQuantityByWarehouse(warehouse.id);
+      if (warehouseQuantity > dto.capacity) {
+        throw new ConflictException('Товаров не может быть больше, чем места на складе');
+      }
+
       return await this.repository.warehouse.update(id, dto, transaction);
     });
   }

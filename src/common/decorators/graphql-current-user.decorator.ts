@@ -6,6 +6,7 @@ import { CustomRequest } from '../interfaces/request/custom-request.interface';
 export const GraphQLCurrentUser = createParamDecorator((data: keyof User, ctx: ExecutionContext) => {
   const gqlContext = GqlExecutionContext.create(ctx).getContext<{ req: CustomRequest }>();
   const user = gqlContext.req.user;
+  console.log(user);
 
   if (!user) {
     throw new NotFoundException('Пользователь в запросе не найден');

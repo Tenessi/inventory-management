@@ -8,6 +8,7 @@ import { ProductModule } from './product/product.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { WarehouseProductModule } from './warehouse-product/warehouse-product.module';
 import { TransactionModule } from './transaction/transaction.module';
+import { AuthModule } from './auth/auth.module';
 
 const modules = [UserModule, ProductModule, WarehouseModule, WarehouseProductModule, TransactionModule];
 
@@ -20,6 +21,7 @@ const modules = [UserModule, ProductModule, WarehouseModule, WarehouseProductMod
       inject: [ConfigService],
     }),
     ...modules,
+    AuthModule,
   ],
 })
 export class ApiV2Module {}
