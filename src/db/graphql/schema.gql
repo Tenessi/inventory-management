@@ -16,6 +16,7 @@ type Mutation {
   createProduct(data: ProductRequestInput!): ProductModel!
   createUser(data: UserCreateRequestInput!): UserModel!
   createWarehouse(data: WarehouseCreateRequestInput!): WarehouseModel!
+  createWarehouseProduct(data: WarehouseProductCreateRequestInput!): WarehouseProductModel!
   deleteProduct(id: String!): Boolean!
   deleteUser(id: String!): Boolean!
   deleteWarehouse(id: String!): Boolean!
@@ -28,7 +29,6 @@ type Mutation {
   updateUser(data: UserUpdateRequestInput!, id: String!): UserModel!
   updateWarehouse(data: WarehouseUpdateRequestInput!, id: String!): WarehouseModel!
   updateWarehouseProduct(data: WarehouseProductUpdateRequestInput!, id: String!): WarehouseProductModel!
-  warehouseProductCreate(data: WarehouseProductCreateRequestInput!): WarehouseProductModel!
 }
 
 type ProductModel {

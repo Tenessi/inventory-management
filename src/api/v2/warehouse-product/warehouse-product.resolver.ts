@@ -14,7 +14,7 @@ export class WarehouseProductResolver {
   constructor(private readonly warehouseProductService: WarehouseProductService) {}
 
   @GraphQLRole(UserRole.ADMIN, UserRole.ACCOUNTANT)
-  @Mutation(() => WarehouseProductModel, { name: 'warehouseProductCreate' })
+  @Mutation(() => WarehouseProductModel, { name: 'createWarehouseProduct' })
   async create(@Args('data') input: WarehouseProductCreateRequestInput): Promise<WarehouseProductModelFields> {
     return await this.warehouseProductService.create(input);
   }

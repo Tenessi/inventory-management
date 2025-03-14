@@ -74,13 +74,17 @@ export class AuthService {
   private issueTokens(userId: string): IssueTokensResponseInput {
     const data = { id: userId };
 
-    const accessToken = this.jwtService.sign(data, {
-      expiresIn: this.configService.get<string>('EXPIRE_DAY_ACCESS_TOKEN'),
-    });
+    const accessToken =
+      'Bearer ' +
+      this.jwtService.sign(data, {
+        expiresIn: this.configService.get<string>('EXPIRE_DAY_ACCESS_TOKEN'),
+      });
 
-    const refreshToken = this.jwtService.sign(data, {
-      expiresIn: this.configService.get<string>('EXPIRE_DAY_REFRESH_TOKEN'),
-    });
+    const refreshToken =
+      'Bearer ' +
+      this.jwtService.sign(data, {
+        expiresIn: this.configService.get<string>('EXPIRE_DAY_REFRESH_TOKEN'),
+      });
 
     return { accessToken, refreshToken };
   }

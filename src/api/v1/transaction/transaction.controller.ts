@@ -6,12 +6,17 @@ import { CurrentUser } from 'src/common/decorators/current-user.decorator';
 import { Auth } from 'src/common/decorators/auth.decorator';
 import { Role } from 'src/common/decorators/user-role.decorator';
 import { UserRole } from 'src/shared/enums/user-role.enum';
+import { ApiBearerAuth, ApiCreatedResponse } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Auth()
 @Controller('transactions')
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
+  @ApiCreatedResponse({
+    type: TransactionResponseDto,
+  })
   @Role(UserRole.ADMIN, UserRole.ACCOUNTANT)
   @Post('incoming')
   @HttpCode(201)
@@ -22,6 +27,9 @@ export class TransactionController {
     return await this.transactionService.incoming(dto, userId);
   }
 
+  @ApiCreatedResponse({
+    type: TransactionResponseDto,
+  })
   @Role(UserRole.ADMIN, UserRole.WAREHOUSE)
   @Post('outgoing')
   @HttpCode(201)
@@ -32,6 +40,9 @@ export class TransactionController {
     return await this.transactionService.outgoing(dto, userId);
   }
 
+  @ApiCreatedResponse({
+    type: TransactionResponseDto,
+  })
   @Get()
   @HttpCode(200)
   async getAll(): Promise<TransactionResponseDto[]> {
