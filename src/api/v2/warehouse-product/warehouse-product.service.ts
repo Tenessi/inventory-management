@@ -1,71 +1,77 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { WarehouseProductModelFields } from 'src/common/types/models/warehouse-product';
 import { Repository } from 'src/db/repositories/repository';
-import { WarehouseProductRequestDto } from './dto/request/request.dto';
-import { WarehouseProductResponseDto } from './dto/response/response.dto';
-import { WarehouseProductUpdateRequestDto } from './dto/request/update-request.dto';
+import { WarehouseProductCreateRequestInput } from './inputs/request/create-request.input';
+import { WarehouseProductUpdateRequestInput } from './inputs/request/update-request.input';
 import { Transaction } from 'objection';
 
 @Injectable()
 export class WarehouseProductService {
   constructor(private readonly repository: Repository) {}
 
-  async create(dto: WarehouseProductRequestDto): Promise<WarehouseProductResponseDto> {
+  async create(input: WarehouseProductCreateRequestInput): Promise<WarehouseProductModelFields> {
     return await this.repository.withTransaction(async (transaction) => {
+      await this.checkWarehouseCapasity(input.warehouseId, input.quantity, transaction);
+
       const warehouseProducts = await this.repository.warehouseProduct.getByWarehouseAndProduct(
-        dto.warehouseId,
-        dto.productId,
+        input.warehouseId,
+        input.productId,
         transaction,
       );
-
-      await this.checkWarehouseCapasity(dto.warehouseId, dto.quantity, transaction);
 
       if (warehouseProducts.length) {
         throw new ConflictException('Данный инвентарь уже существует');
       }
 
-      return await this.repository.warehouseProduct.create(dto, transaction);
+      return await this.repository.warehouseProduct.create(input, transaction);
     });
   }
 
-  async getAll(): Promise<WarehouseProductResponseDto[]> {
+  async getAll(): Promise<WarehouseProductModelFields[]> {
     return await this.repository.warehouseProduct.getAll();
   }
 
-  async getById(id: string): Promise<WarehouseProductResponseDto | undefined> {
+  async getById(id: string): Promise<WarehouseProductModelFields | undefined> {
     return await this.repository.warehouseProduct.getById(id);
   }
 
-  async getByProduct(productId: string): Promise<WarehouseProductResponseDto[]> {
+  async getByWarehouse(warehouseId: string): Promise<WarehouseProductModelFields[]> {
+    return await this.repository.warehouseProduct.getByWarehouse(warehouseId);
+  }
+
+  async getByProduct(productId: string): Promise<WarehouseProductModelFields[]> {
     return await this.repository.warehouseProduct.getByProduct(productId);
   }
 
-  async getByWarehouse(warehpuseId: string): Promise<WarehouseProductResponseDto[]> {
-    return await this.repository.warehouseProduct.getByWarehouse(warehpuseId);
+  async getByWarehouseAndProduct(warehouseId: string, productId: string): Promise<WarehouseProductModelFields[]> {
+    return await this.repository.warehouseProduct.getByWarehouseAndProduct(warehouseId, productId);
   }
 
-  async update(id: string, dto: WarehouseProductUpdateRequestDto): Promise<WarehouseProductResponseDto> {
+  async update(id: string, input: WarehouseProductUpdateRequestInput): Promise<WarehouseProductModelFields> {
     return await this.repository.withTransaction(async (transaction) => {
       const warehouseProduct = await this.repository.warehouseProduct.getById(id, transaction);
 
       if (!warehouseProduct) {
-        throw new NotFoundException('Связь склада и товара не найдена');
+        throw new NotFoundException('Данный нвентарь в складе не найден');
       }
 
-      await this.checkWarehouseCapasity(warehouseProduct.warehouseId, dto.quantity, transaction);
+      await this.checkWarehouseCapasity(warehouseProduct.warehouseId, input.quantity, transaction);
 
-      return await this.repository.warehouseProduct.update(id, dto, transaction);
+      return await this.repository.warehouseProduct.update(id, input, transaction);
     });
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: string): Promise<boolean> {
     return await this.repository.withTransaction(async (transaction) => {
-      const warehouseProduct = await this.repository.warehouseProduct.getById(id, transaction);
+      const warehouseProduct = await this.repository.warehouseProduct.getById(id);
 
       if (!warehouseProduct) {
-        throw new NotFoundException('Связь склада и товара не найдена');
+        throw new NotFoundException('Данный нвентарь в складе не найден');
       }
 
       await this.repository.warehouseProduct.delete(id, transaction);
+
+      return true;
     });
   }
 

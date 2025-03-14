@@ -1,9 +1,10 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { TransactionModelFields } from 'src/common/types/models/transaction';
 import { TransactionType } from 'src/shared/enums/transaction-type.enum';
 
 @ObjectType()
-export class TransactionModel {
+export class TransactionModel implements TransactionModelFields {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()

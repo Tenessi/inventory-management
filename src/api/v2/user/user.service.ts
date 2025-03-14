@@ -1,14 +1,15 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'src/db/repositories/repository';
-import { UserRequestInput } from './inputs/request.input';
+import { UserCreateRequestInput } from './inputs/request/create-request.input';
 import { hash } from 'argon2';
 import { UserModelFields } from 'src/common/types/models/user';
+import { UserUpdateRequestInput } from './inputs/request/update-request.input';
 
 @Injectable()
 export class UserService {
   constructor(private readonly repository: Repository) {}
 
-  async create(input: UserRequestInput): Promise<UserModelFields> {
+  async create(input: UserCreateRequestInput): Promise<UserModelFields> {
     return await this.repository.withTransaction(async (transaction) => {
       const oldUser = await this.repository.user.getByEmail(input.email, transaction);
 
@@ -28,7 +29,7 @@ export class UserService {
     return await this.repository.user.getById(id);
   }
 
-  async update(id: string, input: UserRequestInput): Promise<UserModelFields> {
+  async update(id: string, input: UserUpdateRequestInput): Promise<UserModelFields> {
     return await this.repository.withTransaction(async (transaction) => {
       const user = await this.repository.user.getById(id, transaction);
 
@@ -36,7 +37,11 @@ export class UserService {
         throw new NotFoundException('Пользователь не найден');
       }
 
-      return await this.repository.user.update(id, { ...input, password: await hash(input.password) }, transaction);
+      if (input.password) {
+        input.password = await hash(input.password);
+      }
+
+      return await this.repository.user.update(id, input, transaction);
     });
   }
 

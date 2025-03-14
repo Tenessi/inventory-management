@@ -4,8 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { getGraphQLConfig } from 'src/config/graphql.config';
 import { UserModule } from './user/user.module';
+import { ProductModule } from './product/product.module';
+import { WarehouseModule } from './warehouse/warehouse.module';
+import { WarehouseProductModule } from './warehouse-product/warehouse-product.module';
 
-const modules = [UserModule];
+const modules = [UserModule, ProductModule, WarehouseModule, WarehouseProductModule];
 
 @Module({
   imports: [

@@ -7,4 +7,4 @@ export type UserInput = {
   role: UserRole;
 };
 
-export type UserUpdateInput = Omit<UserInput, 'email' | 'role'> & Partial<Pick<UserInput, 'email' | 'role'>>;
+export type UserUpdateInput = Partial<UserInput>;

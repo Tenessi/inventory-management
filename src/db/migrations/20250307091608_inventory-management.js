@@ -12,7 +12,7 @@ exports.up = function(knex) {
       table.uuid('id').primary().defaultTo(knex.raw('uuid_generate_v4()'));
       table.timestamp('createdAt', { useTz: true }).defaultTo(knex.fn.now());
       table.string('name').notNullable();
-      table.string('description');
+      table.string('description').notNullable();
       table.integer('price').notNullable();
     })
     .createTable('warehouses', (table) => {

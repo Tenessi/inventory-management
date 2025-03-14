@@ -1,15 +1,16 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserModel } from 'src/db/graphql/models/user/user.model';
-import { UserRequestInput } from './inputs/request.input';
+import { UserCreateRequestInput } from './inputs/request/create-request.input';
 import { UserModelFields } from 'src/common/types/models/user';
+import { UserUpdateRequestInput } from './inputs/request/update-request.input';
 
 @Resolver('Users')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
   @Mutation(() => UserModel, { name: 'createUser' })
-  async create(@Args('data') input: UserRequestInput): Promise<UserModelFields> {
+  async create(@Args('data') input: UserCreateRequestInput): Promise<UserModelFields> {
     return await this.userService.create(input);
   }
 
@@ -24,7 +25,7 @@ export class UserResolver {
   }
 
   @Mutation(() => UserModel, { name: 'updateUser' })
-  async update(@Args('id') id: string, @Args('data') input: UserRequestInput): Promise<UserModelFields> {
+  async update(@Args('id') id: string, @Args('data') input: UserUpdateRequestInput): Promise<UserModelFields> {
     return await this.userService.update(id, input);
   }
 

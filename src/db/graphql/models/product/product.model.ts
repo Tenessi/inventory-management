@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber, IsOptional, IsString, IsUUID } from 'class-validator';
+import { ProductModelFields } from 'src/common/types/models/product';
 
 @ObjectType()
-export class ProductModel {
+export class ProductModel implements ProductModelFields {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()
@@ -16,7 +17,7 @@ export class ProductModel {
   @Field()
   @IsString()
   @IsOptional()
-  description?: string;
+  description: string;
 
   @Field()
   @IsNotEmpty()

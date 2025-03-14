@@ -33,8 +33,12 @@ export class ProductRepository {
     await this.productModel.query(transaction).deleteById(id);
   }
 
-  async getProductsQuantityByWarehouse(warehouseId: string): Promise<number> {
+  async getProductsQuantityByWarehouse(warehouseId: string, transaction?: Transaction): Promise<number> {
     const query = this.knex('warehouseProducts').sum('quantity as totalQuantity').first().where({ warehouseId });
+
+    if (transaction) {
+      query.transacting(transaction);
+    }
 
     const raws = await query;
     return +raws?.totalQuantity;

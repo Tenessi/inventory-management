@@ -1,8 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { IsNotEmpty, IsNumber, IsString, IsUUID } from 'class-validator';
+import { WarehouseModelFields } from 'src/common/types/models/warehouse';
 
 @ObjectType()
-export class WarehouseModel {
+export class WarehouseModel implements WarehouseModelFields {
   @Field(() => ID)
   @IsNotEmpty()
   @IsUUID()

@@ -7,7 +7,7 @@ import { INVENTORY_MANAGEMENT_TABLES } from 'src/db/constants';
 export class ProductModel extends Model implements ProductModelFields {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   price: number;
 
   static get tableName() {
