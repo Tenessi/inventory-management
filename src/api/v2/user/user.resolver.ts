@@ -6,14 +6,14 @@ import { UserModelFields } from 'src/common/types/models/user';
 import { UserUpdateRequestInput } from './inputs/request/update-request.input';
 import { GraphQLAuth } from 'src/common/decorators/graphql-auth.decorator';
 import { UserRole } from 'src/shared/enums/user-role.enum';
-import { Role } from 'src/common/decorators/user-role.decorator';
+import { GraphQLRole } from 'src/common/decorators/graphql-user-role.decorator';
 
 @GraphQLAuth()
 @Resolver('Users')
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
-  @Role(UserRole.ADMIN)
+  @GraphQLRole(UserRole.ADMIN)
   @Mutation(() => UserModel, { name: 'createUser' })
   async create(@Args('data') input: UserCreateRequestInput): Promise<UserModelFields> {
     return await this.userService.create(input);
@@ -29,13 +29,13 @@ export class UserResolver {
     return await this.userService.getById(id);
   }
 
-  @Role(UserRole.ADMIN)
+  @GraphQLRole(UserRole.ADMIN)
   @Mutation(() => UserModel, { name: 'updateUser' })
   async update(@Args('id') id: string, @Args('data') input: UserUpdateRequestInput): Promise<UserModelFields> {
     return await this.userService.update(id, input);
   }
 
-  @Role(UserRole.ADMIN)
+  @GraphQLRole(UserRole.ADMIN)
   @Mutation(() => Boolean, { name: 'deleteUser' })
   async delete(@Args('id') id: string): Promise<boolean> {
     return await this.userService.delete(id);
