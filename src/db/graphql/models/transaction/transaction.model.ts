@@ -12,7 +12,8 @@ export class TransactionModel implements TransactionModelFields {
 
   @Field()
   @IsString()
-  date?: string;
+  @IsNotEmpty()
+  date: string;
 
   @Field()
   @IsNumber()

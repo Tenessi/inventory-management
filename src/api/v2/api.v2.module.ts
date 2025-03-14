@@ -7,8 +7,9 @@ import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { WarehouseModule } from './warehouse/warehouse.module';
 import { WarehouseProductModule } from './warehouse-product/warehouse-product.module';
+import { TransactionModule } from './transaction/transaction.module';
 
-const modules = [UserModule, ProductModule, WarehouseModule, WarehouseProductModule];
+const modules = [UserModule, ProductModule, WarehouseModule, WarehouseProductModule, TransactionModule];
 
 @Module({
   imports: [

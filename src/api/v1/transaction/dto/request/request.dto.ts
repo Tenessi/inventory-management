@@ -1,6 +1,6 @@
 import { TransactionDto } from 'src/api/v1/dto/transaction.dto';
 
-type TransactionRequestType = Omit<TransactionDto, 'id' | 'date' | 'type'>;
+type TransactionRequestType = Omit<TransactionDto, 'id' | 'date' | 'type' | 'userId'>;
 
 export class TransactionRequestDto implements TransactionRequestType {
   quantity: number;

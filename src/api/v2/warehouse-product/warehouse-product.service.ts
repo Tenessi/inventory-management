@@ -75,7 +75,7 @@ export class WarehouseProductService {
     });
   }
 
-  private async checkWarehouseCapasity(warehouseId: string, dtoQuantity: number, transaction?: Transaction) {
+  private async checkWarehouseCapasity(warehouseId: string, dtoQuantity: number, transaction: Transaction) {
     const warehouse = await this.repository.warehouse.getById(warehouseId, transaction);
 
     if (!warehouse) {

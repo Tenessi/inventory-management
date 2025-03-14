@@ -10,6 +10,8 @@ type Mutation {
   deleteUser(id: String!): Boolean!
   deleteWarehouse(id: String!): Boolean!
   deleteWarehouseProduct(id: String!): Boolean!
+  incomingTransaction(data: TransactionRequestInput!): TransactionModel!
+  outgoingTransaction(data: TransactionRequestInput!): TransactionModel!
   updateProduct(data: ProductUpdateRequestInput!, id: String!): ProductModel!
   updateUser(data: UserUpdateRequestInput!, id: String!): UserModel!
   updateWarehouse(data: WarehouseUpdateRequestInput!, id: String!): WarehouseModel!
@@ -38,6 +40,7 @@ input ProductUpdateRequestInput {
 
 type Query {
   getAllProducts: [ProductModel!]!
+  getAllTransaction: [TransactionModel!]!
   getAllUsers: [UserModel!]!
   getAllWarehouseProducts: [WarehouseProductModel!]!
   getAllWarehouses: [WarehouseModel!]!
@@ -48,6 +51,29 @@ type Query {
   getWarehouseProductByProductId(productId: String!): [WarehouseProductModel!]!
   getWarehouseProductByWarehouseId(warehouseId: String!): [WarehouseProductModel!]!
   getWarehouseProductByWarehouseIdAndProductId(productId: String!, warehouseId: String!): [WarehouseProductModel!]!
+}
+
+type TransactionModel {
+  date: String!
+  id: ID!
+  productId: ID!
+  quantity: Float!
+  type: TransactionType!
+  userId: ID!
+  warehouseId: ID!
+}
+
+input TransactionRequestInput {
+  date: String
+  productId: ID!
+  quantity: Float!
+  warehouseId: ID!
+}
+
+"""TransactionType enum"""
+enum TransactionType {
+  INCOMING
+  OUTGOING
 }
 
 input UserCreateRequestInput {
